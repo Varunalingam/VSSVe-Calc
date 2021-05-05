@@ -1,442 +1,410 @@
+import tkinter
 import math
+import time
 
-def Help():
-    print("\n\t\t Help Menu\n\nOperators:\n\nAdd: Num1 + Num2\nSub: Num1 ~ Num2\nMultiply: Num1 * Num2 (or) Num1 x Num2 (or) Num1 X Num2")
-    print("Divide: Num1 / Num2 (for Num2 not equals Zero)\nExponential: Num1 ^ Num2\n\nFunctions\n\nSine: sin Num3 (or) sine Num3")
-    print("Cosine: cos Num3 (or) cosine Num3\nTangent: tan Num3 or tangent Num3\nSine Inverse: asin Num3 (or) asine Num3")
-    print("Cosine Inverse: acos Num3 (or) acosine Num3\nTangent Inverse: atan Num3 (or) atangent Num3\nGreatest Integer: gif Num1 (or) gi Num1")
-    print("Fractional Part: fpf Num1 (or) fp Num1\nModulus: mod Num1 (or) modulus Num1\nSignum: sgn Num1")
-    print("Factorial: ! Num4 (or) factorial Num4")
-    print("\nNum1, Num2 and Num3 can be any real number.\nNum4 can be Zero or Positive Integer Only\n\tFor Negative No:\n\t eg) -1\n\t    -sin 1 (Wrong Syntax)\nNote: Num3 functions consider Num3 to be in radians unit\nNo Other Syntax are allowed")
-    print("Brackets are not allowed\nCalculations are made Leniarly not according to BODMAS\n\t eg) 1 + 2 * 3 = 3 * 3 = 9(correct)\n\t     1 + 2 * 3 = 1 + 6 = 7(Wrong)\n")
-    print("\n\t\t Error Codes\nError Code 1,2,3,4,6,7,8,9,10,11,13,14,15 : Syntax Error\nError Code 12: Usage of Non Integral (or) Negative Integral Number in Factorial Function\nError Code 5 : Zero Division Error(Usage of Zero as Num2 in Division)")
 
-def operation(a , o , b):
-    if o == "+":
-        return a + b
-    elif o == "~":
-        return a - b
-    elif o == "*" or o == "X" or o == "x":
-        return a * b 
-    elif o == "/":
-        try:
-            return a / b
-        except ZeroDivisionError:
-            print("\nError Code 5: Value Not Defined, Mathematically\n App to Restart....\n")
-            main()
-    elif o == "^":
-        return a ** b
-    elif o == None and b == None or o == "" and b == 0:
-        return a
-    else:
-        print("Syntax Error Code 7. App to Quit")
+main_window = tkinter.Tk()
+main_window.title("VSSVE Calc")
+main_window.iconbitmap("logo.bmp")
+
+a = 0
+b = None
+o = "+"
+oo = None
+calc = "0+"
+
+def Operation(a,o,oo,b):
+    try:
+        a = float(a)
+        if b == None:
+            b = 0
+            if oo == None:
+                if o == "+":
+                    return a + b
+                elif o == "-" or o == "~":
+                    return a - b
+                elif o == "*":
+                    return a * b
+                elif o == "/":
+                    try:
+                        return a/b
+                    except ZeroDivisionError:
+                        calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 5! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                        tkinter.Label(calculations_Label).update()
+                        time.sleep(2)
+                        exit()
+                elif o == "^":
+                    return a ** b
+                else:
+                    return a
+            else:
+                if oo == "sin":
+                    return Operation(a,o,None,math.sin(b))
+                elif oo == "cos":
+                    return Operation(a,o,None,math.cos(b))
+                elif oo == "tan":
+                    return Operation(a,o,None,math.tan(b))
+                elif oo == "sin\u207B\u00B9":
+                    return Operation(a,o,None,math.asin(b))
+                elif oo == "cos\u207B\u00B9":
+                    return Operation(a,o,None,math.acos(b))
+                elif oo == "tan\u207B\u00B9":
+                    return Operation(a,o,None,math.atan(b))
+                elif oo == "fpf":
+                    if b >= 0:
+                        return Operation(a,o,None,b - int(b))
+                    else:
+                        return Operation(a,o,None,b - (int(b) - 1))
+                elif oo == "gif":
+                    if b >= 0:
+                        return Operation(a,o,None,int(b))
+                    elif int(b) == b:
+                        return Operation(a,o,None,int(b))
+                    else:
+                        return Operation(a,o,None,int(b) - 1)
+                elif oo == "sgn":
+                    if b > 0:
+                        return Operation(a,o,None,1)
+                    elif b == 0:
+                        return Operation(a,o,None,0)
+                    else:
+                        return Operation(a,o,None,-1)
+                elif oo == "!":
+                    try:
+                        return Operation(a,o,None,math.factorial(b))
+                    except ValueError:
+                        calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 5! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                        tkinter.Label(calculations_Label).update()
+                        time.sleep(2)
+                        exit()
+                elif oo == "ln":
+                    return Operation(a,o,None,math.log(b,math.e))
+                elif oo == "log\u2081\u2080":
+                    return Operation(a,o,None,math.log10(b))
+                elif oo == "log\u2082":
+                    return Operation(a,o,None,math.log2(b))
+                elif oo == "log\u2083":
+                    return Operation(a,o,None,math.log(b,3))
+                elif oo == "ln\u207B\u00B9":
+                    return Operation(a,o,None,math.e ** b)
+                elif oo == "log\u207B\u00B9\u2081\u2080":
+                    return Operation(a,o,None,10 ** b)
+                elif oo == "log\u207B\u00B9\u2082":
+                    return Operation(a,o,None,2 ** b)
+                elif oo == "log\u207B\u00B9\u2083":
+                    return Operation(a,o,None,3 ** b)
+                else:
+                    calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 6! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                    tkinter.Label(calculations_Label).update()
+                    time.sleep(2)
+                    exit()
+        elif b == "π":
+            return Operation(a,o,oo,math.pi)
+        elif b == "e":
+            return Operation(a,o,oo,math.e)
+        else:
+            b = float(b)
+            if oo == None:
+                if o == "+":
+                    return a + b
+                elif o == "-" or o == "~":
+                    return a - b
+                elif o == "*":
+                    return a * b
+                elif o == "/":
+                    try:
+                        return a/b
+                    except ZeroDivisionError:
+                        calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 5! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                        tkinter.Label(calculations_Label).update()
+                        time.sleep(2)
+                        exit()
+                elif o == "^":
+                    return a ** b
+                else:
+                    return a
+            else:
+                if oo == "sin":
+                    return Operation(a,o,None,math.sin(b))
+                elif oo == "cos":
+                    return Operation(a,o,None,math.cos(b))
+                elif oo == "tan":
+                    return Operation(a,o,None,math.tan(b))
+                elif oo == "sin\u207B\u00B9":
+                    return Operation(a,o,None,math.asin(b))
+                elif oo == "cos\u207B\u00B9":
+                    return Operation(a,o,None,math.acos(b))
+                elif oo == "tan\u207B\u00B9":
+                    return Operation(a,o,None,math.atan(b))
+                elif oo == "fpf":
+                    if b >= 0:
+                        return Operation(a,o,None,b - int(b))
+                    else:
+                        return Operation(a,o,None,b - (int(b) - 1))
+                elif oo == "gif":
+                    if b >= 0:
+                        return Operation(a,o,None,int(b))
+                    elif int(b) == b:
+                        return Operation(a,o,None,int(b))
+                    else:
+                        return Operation(a,o,None,int(b) - 1)
+                elif oo == "sgn":
+                    if b > 0:
+                        return Operation(a,o,None,1)
+                    elif b == 0:
+                        return Operation(a,o,None,0)
+                    else:
+                        return Operation(a,o,None,-1)
+                elif oo == "mod":
+                    if b > 0:
+                        return Operation(a,o,None,b)
+                    elif b == 0:
+                        return Operation(a,o,None,0)
+                    else:
+                        return Operation(a,o,None,-b)
+                elif oo == "!":
+                    try:
+                        return Operation(a,o,None,math.factorial(b))
+                    except ValueError:
+                        calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 5! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                        tkinter.Label(calculations_Label).update()
+                        time.sleep(2)
+                        exit()
+                elif oo == "ln":
+                    return Operation(a,o,None,math.log(b,math.e))
+                elif oo == "log\u2081\u2080":
+                    return Operation(a,o,None,math.log10(b))
+                elif oo == "log\u2082":
+                    return Operation(a,o,None,math.log2(b))
+                elif oo == "log\u2083":
+                    return Operation(a,o,None,math.log(b,3))
+                elif oo == "ln\u207B\u00B9":
+                    return Operation(a,o,None,math.e ** b)
+                elif oo == "log\u207B\u00B9\u2081\u2080":
+                    return Operation(a,o,None,10 ** b)
+                elif oo == "log\u207B\u00B9\u2082":
+                    return Operation(a,o,None,2 ** b)
+                elif oo == "log\u207B\u00B9\u2083":
+                    return Operation(a,o,None,3 ** b)
+                else:
+                    calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 6! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                    tkinter.Label(calculations_Label).update()
+                    time.sleep(2)
+                    exit()
+    except ValueError:
+        calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 4! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+        tkinter.Label(calculations_Label).update()
+        time.sleep(2)
         exit()
 
-def Calculator(main_stream):
-    a = None
-    o = None
-    b = None
+def close(c):
+    global helptext
+    helptext = tkinter.Label(main_window,text = "Copyrighted to VSSVE.inc by copyrights 2017",bg = "Black", fg = "white", anchor = "n").grid(row = 8, columnspan = 6, rowspan = 2, sticky = "nswe")
 
-    for cmd in main_stream:
-        if a == None:
-            try:
-                a = float(cmd)
-            except ValueError:
-                print("\nSyntax Error Code 13! App to Quit")
-                exit()
-        elif o == None:
-            o = cmd
+def Button(input):
+    global calc
+    global a
+    global b
+    global o
+    global oo
+    global helptext
+    calc = calc + str(input)
+    calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+    tkinter.Label(calculations_sub).update()
+    if (str(input).lower() == "exit"):
+        exit()
+    elif str(input).lower() == "help":
+        help = "Help Menu\nFor Negative No use -() Button.\nFor Negative Function use -().\nCalc Calculates Linearly not according to BODMAS"
+        calc = calc[:-4]
+        calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+        tkinter.Label(calculations_sub).update()
+        helptext = tkinter.Label(main_window, bg = "gray", fg = "white", text = help).grid(row = 8, columnspan = 6, sticky = "nswe")
+        Close = tkinter.Button(main_window,bg = "black",fg = "white",text = "Close",highlightbackground = "black",command = lambda: close(Close)).grid(row = 9, columnspan = 6)
+    elif str(input).lower() == "ce":
+        a = 0
+        b = None
+        o = "+"
+        oo = None
+        calc = "0+"
+        calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+        calculations_Label = tkinter.Label(main_window, text = "0", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+    elif input == "=":
+        a = Operation(a,o,oo,b)
+        o = "+"
+        oo = None
+        b = None
+        calc = str(a) + str(o)
+        calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+        tkinter.Label(calculations_sub).update()
+        calculations_Label = tkinter.Label(main_window, text = str(a) + str(o), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+        tkinter.Label(calculations_Label).update()
+    elif o != None and b == None and oo == None:
+        if type(input) == type(0):
+            b = str(input)
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "pi":
+            b = "π"
+            calc = calc[:-3] + "π"
+            calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+            tkinter.Label(calculations_sub).update()
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "e":
+            b = "e"
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == ".":
+            b = str("0" + ".")
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "-" and o == "+":
+            o = input
+            calc = calc[:-2] + input
+            calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+            tkinter.Label(calculations_sub).update()
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "-":
+            b = str("-")
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input != "+" and input != "~" and input != "*" and input != "/" and input != "^":
+            oo = str(input)
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(oo), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "~":
+            o = "-"
+            calc = calc[:-2] + "-"
+            calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+            tkinter.Label(calculations_sub).update()
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str("-"), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()            
         else:
-            try:
-                b = float(cmd)
-                a = operation( a, o, b)
-                o = None
-                b = None
-            except ValueError:
-                print("\nSyntax Error Code 14!App to Quit")
-                exit()
-    if o == None:
-        print ("\n= " + str(a))
-        stream = input("\n(ce\\help\\quit\\exit) Calculations : " + str(a) + " ")
-        if stream.lower() == "help":
-            Help()
-            stream = input("\n(ce\\quit\\exit) Calculations : " + str(a) + " ")
-            if stream.lower() == "quit" or stream.lower() == "exit":
-                print("\nThanks for using VSSVE Calc\n")
-                exit()
-            elif stream.lower() == "ce":
-                main()
-            else:
-                stream = str(a) + stream
-                parser(stream)
-        elif stream.lower() == "quit" or stream.lower() == "exit":
-            print("\nThanks for using VSSVE Calc\n")
+            o = input
+            calc = calc[:-2] + input
+            calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+            tkinter.Label(calculations_sub).update()
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+    elif o != None and b == None:
+        if type(input) == type(0):
+            b = str(input)
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(oo) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "pi":
+            b = "π"
+            calc = calc[:-3] + "π"
+            calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+            tkinter.Label(calculations_sub).update()
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(oo) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "e":
+            b = "e"
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(oo) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == ".":
+            b = str("0" + ".")
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(oo) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "-":
+            b = str("-")
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(oo) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input != "+" and input != "~" and input != "*" and input != "/" and input != "^":
+            calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 3! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+            time.sleep(2)
             exit()
-        elif stream.lower() == "ce":
-            main()
         else:
-            stream = str(a) + stream
-            parser(stream)
-    else:
-        print("\nSyntax Error Code 15. App to Quit!")
-        exit()
-
-def SingleOperand_calc(main_stream):
-    secondary_stream = []
-    z = 0
-    i = -1
-    for set in main_stream:
-        set = str(set)
-        i = i + 1
-        if z == 0:
-            if set.lower() == "sin" or set.lower() == "sine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.sin(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "cos" or set.lower() == "cosine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.cos(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "tan" or set.lower() == "tangent":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.tan(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "asin" or set.lower() == "asine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.asin(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "acos" or set.lower() == "acosine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.acos(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "atan" or set.lower() == "atangent":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.atan(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "gif" or set.lower() == "gi":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c >= 0:
-                        secondary_stream.append(str(int(c)))
-                    elif c == int(c):
-                        secondary_stream.append(str(int(c)))
-                    else:
-                        secondary_stream.append(str(int(c) - 1))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "mod" or set.lower() == "modulus":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c >= 0:
-                        secondary_stream.append(str(c))
-                    else:
-                        secondary_stream.append(str(c * (-1)))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "fpf" or set.lower() == "fractionalpart":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c >= 0:
-                        secondary_stream.append(str(c - int(c)))
-                    elif c == int(c):
-                        secondary_stream.append(str(0))
-                    else:
-                        secondary_stream.append(str(c - (int(c) - 1)))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "sgn":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c > 0:
-                        secondary_stream.append(str(1))
-                    elif c == 0:
-                        secondary_stream.append(str(0))
-                    else:
-                        secondary_stream.append(str(-1))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "factorial" or set == "!":
-                z = i + 1
-                try:
-                    c = int(main_stream[z])
-                    if c > 0:
-                        secondary_stream.append(str(math.factorial(int(c))))
-                    elif c == 0:
-                        secondary_stream.append(str(1))
-                    else:
-                        print("Syntax Error Code 12 - Factorial Input as positive Integer or 0 Only. App to Quit")
-                        exit()
-                except ValueError:
-                    print("Syntax Error Code 12 - Factorial Input as positive Integer or 0 Only. App to Quit")
-                    exit()
-            else:
-                secondary_stream.append(set)  
-        elif main_stream[z] == set:
-            pass
-        else:
-            if set.lower() == "sin" or set.lower() == "sine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.sin(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "cos" or set.lower() == "cosine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.cos(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "tan" or set.lower() == "tangent":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.tan(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "asin" or set.lower() == "asine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.asin(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "acos" or set.lower() == "acosine":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.acos(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "atan" or set.lower() == "atangent":
-                z = i + 1
-                try:
-                    secondary_stream.append(str(math.atan(float(main_stream[z]))))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "gif" or set.lower() == "gi":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c >= 0:
-                        secondary_stream.append(str(int(c)))
-                    else:
-                        secondary_stream.append(str(int(c) - 1))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "mod" or set.lower() == "modulus":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c >= 0:
-                        secondary_stream.append(str(c))
-                    else:
-                        secondary_stream.append(str(c * (-1)))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "fpf" or set.lower() == "fractionalpart":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c >= 0:
-                        secondary_stream.append(str(c - int(c)))
-                    else:
-                        secondary_stream.append(str(c - (int(c) - 1)))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "sgn":
-                z = i + 1
-                try:
-                    c = float(main_stream[z])
-                    if c > 0:
-                        secondary_stream.append(str(1))
-                    elif c == 0:
-                        secondary_stream.append(str(0))
-                    else:
-                        secondary_stream.append(str(-1))
-                except ValueError:
-                    print("Syntax Error Code 10. App to Quit")
-                    exit()
-            elif set.lower() == "factorial" or set == "!":
-                z = i + 1
-                try:
-                    c = int(main_stream[z])
-                    if c > 0:
-                        secondary_stream.append(str(math.factorial(int(c))))
-                    elif c == 0:
-                        secondary_stream.append(str(1))
-                    else:
-                        print("Syntax Error Code 12 - Factorial Input as positive Integer or 0 Only. App to Quit")
-                        exit()
-                except ValueError:
-                    print("Syntax Error Code 12 - Factorial Input as positive Integer or 0 Only. App to Quit")
-                    exit()
-            else:
-                secondary_stream.append(set)  
-    
-    Calculator(secondary_stream)
-
-def CalculatorSetParser(main_stream):
-    
-    stream = []
-    string = None
-    for set in main_stream:
-        if string == None:
-            try:
-                float(set)
-                string = set
-            except ValueError:
-                string = None
-                if set == "-":
-                    string = set
+            calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 1! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+            time.sleep(2)
+            exit()
+    elif o != None:
+        if type(input) == type(0) or input == ".":
+            if b != "π" and b!= "e":
+                b = b + str(input)
+                if oo == None:
+                    calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                    tkinter.Label(calculations_Label).update()
                 else:
-                    stream.append(set)
-            except:
-                print("\nSyntax Error Code 3. App to Quit")
+                    calculations_Label = tkinter.Label(main_window, text = str(a) + str(o) + str(oo) + str(b), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                    tkinter.Label(calculations_Label).update()
+            else:
+                calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 2! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+                tkinter.Label(calculations_Label).update()
+                time.sleep(2)
                 exit()
-        elif set == ".":
-            string = string + set
+        elif input == "~":
+            calc = calc[:-2] + "-"
+            calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+            tkinter.Label(calculations_sub).update()
+            a = Operation(a, o , oo, b)
+            o = str("-")
+            oo = None
+            b = None
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str("-"), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+        elif input == "+" or input == "*" or input =="/" or input =="^" or input == "-":
+            a = Operation(a, o , oo, b)
+            o = str(input)
+            oo = None
+            b = None
+            calculations_Label = tkinter.Label(main_window, text = str(a) + str(o), bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
         else:
-            try:
-                float(set)
-                string = string + set
-                stream.append(string)
-                string = None
-            except ValueError:
-                stream.append(string)
-                stream.append(set)
-                string = None
-            except:
-                print("\nSyntax Error Code 4. App to Quit!")
-                exit()
-    
-    if string != None:
-        stream.append(string)
-        SingleOperand_calc(stream)
+            calculations_Label = tkinter.Label(main_window, text = "Syntax Error Code 2! App to Quit!", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 18)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
+            tkinter.Label(calculations_Label).update()
+            time.sleep(2)
+            exit()
     else:
-        SingleOperand_calc(stream)
+        None
 
+calculations_sub = tkinter.Label(main_window, text = calc, bg = "black", fg = "gray",anchor = "e" ,font = ("Courier", 18)).grid(row = 0, sticky = "nswe", columnspan = 5)
+calculations_Label = tkinter.Label(main_window, text = "0", bg = "black", fg = "White",anchor = "e" ,font = ("Courier", 36)).grid(row = 1, sticky = "nswe", columnspan = 5, rowspan = 2)
 
-def parser(main_stream):
-    main_stream = str(main_stream).split(None)
-    
-    stream = []
+button9 = tkinter.Button(main_window,bg = "black",fg = "white", text = "9",command = lambda:Button(9), highlightbackground = "Black", font = ("Courier","25")).grid(column = 2, row = 4, sticky = "nswe")
+button8 = tkinter.Button(main_window,bg = "black",fg = "white", text = "8",command = lambda:Button(8), font = ("Courier","25"), highlightbackground = "Black").grid(column = 1, row = 4, sticky = "nswe")
+button7 = tkinter.Button(main_window,bg = "black",fg = "white", text = "7",command = lambda:Button(7), font = ("Courier","25"), highlightbackground = "Black").grid(column = 0, row = 4, sticky = "nswe")
+button6 = tkinter.Button(main_window,bg = "black",fg = "white", text = "6",command = lambda:Button(6), font = ("Courier","25"), highlightbackground = "Black").grid(column = 2, row = 5, sticky = "nswe")
+button5 = tkinter.Button(main_window,bg = "black",fg = "white", text = "5",command = lambda:Button(5), font = ("Courier","25"), highlightbackground = "Black").grid(column = 1, row = 5, sticky = "nswe")
+button4 = tkinter.Button(main_window,bg = "black",fg = "white", text = "4",command = lambda:Button(4), font = ("Courier","25"), highlightbackground = "Black").grid(column = 0, row = 5, sticky = "nswe")
+button3 = tkinter.Button(main_window,bg = "black",fg = "white", text = "3",command = lambda:Button(3), font = ("Courier","25"), highlightbackground = "Black").grid(column = 2, row = 6, sticky = "nswe")
+button2 = tkinter.Button(main_window,bg = "black",fg = "white", text = "2",command = lambda:Button(2), font = ("Courier","25"), highlightbackground = "Black").grid(column = 1, row = 6, sticky = "nswe")
+button1 = tkinter.Button(main_window,bg = "black",fg = "white", text = "1",command = lambda:Button(1), font = ("Courier","25"), highlightbackground = "Black").grid(column = 0, row = 6, sticky = "nswe")
+button0 = tkinter.Button(main_window,bg = "black",fg = "white", text = "0",command = lambda:Button(0), font = ("Courier","25"), highlightbackground = "Black").grid(column = 0, row = 7, columnspan = 2, sticky = "nswe")
+buttondot = tkinter.Button(main_window,bg = "black",fg = "white", text = ".",command = lambda:Button("."), font = ("Courier","25"), highlightbackground = "Black").grid(column = 2, row = 7, sticky = "nswe")
+buttoneq = tkinter.Button(main_window,bg = "black",fg = "white", text = "=",command = lambda:Button("="), font = ("Courier","25"), highlightbackground = "Black").grid(column = 3, row = 7, sticky = "nswe")
+buttonplus = tkinter.Button(main_window,bg = "black",fg = "white", text = "+",command = lambda:Button("+"), font = ("Courier","25"), highlightbackground = "Black").grid(column = 3, row = 6, sticky = "nswe")
+buttonsub = tkinter.Button(main_window,bg = "black",fg = "white", text = "-",command = lambda:Button("-"), font = ("Courier","25"), highlightbackground = "Black").grid(column = 3, row = 5, sticky = "nswe")
+buttonmul = tkinter.Button(main_window,bg = "black",fg = "white", text = "*",command = lambda:Button("*"), font = ("Courier","25"), highlightbackground = "Black").grid(column = 3, row = 4, sticky = "nswe")
+buttondiv = tkinter.Button(main_window,bg = "black",fg = "white", text = "/",command = lambda:Button("/"), font = ("Courier","22"), highlightbackground = "Black").grid(column = 3, row = 3, sticky = "nswe")
+buttonexp = tkinter.Button(main_window,bg = "black",fg = "white", text = "^",command = lambda:Button("^"), font = ("Courier","22"), highlightbackground = "Black").grid(column = 2, row = 3, sticky = "nswe")
+buttonce = tkinter.Button(main_window,bg = "black",fg = "white", text = "CE",command = lambda:Button("CE"), font = ("Courier","15"), highlightbackground = "Black").grid(column = 0, row = 3, sticky = "nswe")
+buttonexit = tkinter.Button(main_window,bg = "black",fg = "white", text = "Off",command = lambda:Button("exit"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 0, sticky = "nswe")
+buttone = tkinter.Button(main_window,bg = "black",fg = "white", text = "e",command = lambda:Button("e"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 4, row = 3, sticky = "nswe")
+buttonsgn = tkinter.Button(main_window,bg = "black",fg = "white", text = "Sgn",command = lambda:Button("sgn"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 3, sticky = "nswe")
+buttonsin = tkinter.Button(main_window,bg = "black",fg = "white", text = "Sin",command = lambda:Button("sin"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 4, row = 4, sticky = "nswe")
+buttoncos = tkinter.Button(main_window,bg = "black",fg = "white", text = "Cos",command = lambda:Button("cos"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 4, row = 5, sticky = "nswe")
+buttontan = tkinter.Button(main_window,bg = "black",fg = "white", text = "Tan",command = lambda:Button("tan"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 4, row = 6, sticky = "nswe")
+buttonasin = tkinter.Button(main_window,bg = "black",fg = "white", text = 'Sin\u207B\u00B9' ,command = lambda:Button("sin\u207B\u00B9"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 4, sticky = "nswe")
+buttonacos = tkinter.Button(main_window,bg = "black",fg = "white", text = "Cos\u207B\u00B9",command = lambda:Button("cos\u207B\u00B9"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 5, sticky = "nswe")
+buttonatan = tkinter.Button(main_window,bg = "black",fg = "white", text = "Tan\u207B\u00B9",command = lambda:Button("tan\u207B\u00B9"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 6, sticky = "nswe")
+buttonMod = tkinter.Button(main_window,bg = "black",fg = "white", text = "|.|",command = lambda:Button("mod"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 7, sticky = "nswe")
+buttonafac = tkinter.Button(main_window,bg = "black",fg = "white", text = "!",command = lambda:Button("!"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 4, row = 7, sticky = "nswe")
+buttonfpf = tkinter.Button(main_window,bg = "black",fg = "white", text = "{.}",command = lambda:Button("fpf"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 2, sticky = "nswe")
+buttongif = tkinter.Button(main_window,bg = "black",fg = "white", text = "[.]",command = lambda:Button("gif"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 5, row = 1, sticky = "nswe")
+buttonpi = tkinter.Button(main_window,bg = "black",fg = "white", text = "π",command = lambda:Button("pi"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 1, row = 3, sticky = "nswe")
+buttonln = tkinter.Button(main_window,bg = "black",fg = "white", text = "ln",command = lambda:Button("ln"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 6, row = 4, sticky = "nswe")
+buttonlog10 = tkinter.Button(main_window,bg = "black",fg = "white", text = "log\u2081\u2080",command = lambda:Button("log\u2081\u2080"), font = ("Courier","16"), highlightbackground = "Black").grid(column = 6, row = 5, sticky = "nswe")
+buttonlog2 = tkinter.Button(main_window,bg = "black",fg = "white", text = "log\u2082",command = lambda:Button("log\u2082"), font = ("Courier","16"), highlightbackground = "Black").grid(column = 6, row = 6, sticky = "nswe")
+buttonlog3 = tkinter.Button(main_window,bg = "black",fg = "white", text = "log\u2083",command = lambda:Button("log\u2083"), font = ("Courier","16"), highlightbackground = "Black").grid(column = 6, row = 7, sticky = "nswe")
+buttonln = tkinter.Button(main_window,bg = "black",fg = "white", text = "ln\u207B\u00B9",command = lambda:Button("ln\u207B\u00B9"), font = ("Courier","18"), highlightbackground = "Black").grid(column = 6, row = 0, sticky = "nswe")
+buttonlog10 = tkinter.Button(main_window,bg = "black",fg = "white", text = "log\u207B\u00B9\u2081\u2080",command = lambda:Button("log\u207B\u00B9\u2081\u2080"), font = ("Courier","16"), highlightbackground = "Black").grid(column = 6, row = 1, sticky = "nswe")
+buttonlog2 = tkinter.Button(main_window,bg = "black",fg = "white", text = "log\u207B\u00B9\u2082",command = lambda:Button("log\u207B\u00B9\u2082"), font = ("Courier","16"), highlightbackground = "Black").grid(column = 6, row = 2, sticky = "nswe")
+buttonlog3 = tkinter.Button(main_window,bg = "black",fg = "white", text = "log\u207B\u00B9\u2083",command = lambda:Button("log\u207B\u00B9\u2083"), font = ("Courier","16"), highlightbackground = "Black").grid(column = 6, row = 3, sticky = "nswe")
 
-    for sts in main_stream:
-        for letter in sts:
-            stream.append(letter)
-    
-    main_stream = []
+helptext = tkinter.Label(main_window,text = "Copyrighted to VSSVE.inc under copyrights 2017.",bg = "Black", fg = "white").grid(row = 8, columnspan = 7,rowspan = 2, sticky = "nswe")
 
-    string = None
-    string_char = None
-    for letter in stream:
-        try:
-            float(letter)
-            if string == None and string_char == None:
-                string = letter
-            elif string == None:
-                main_stream.append(string_char)
-                string = letter
-                string_char = None
-            elif string_char == None:
-                string = string + letter
-            else:
-                main_stream.append(string_char)
-                string = string + letter
-                string_char = None
-        except ValueError:
-            if string_char == None and string == None:
-                if letter == "+" or letter == "~" or letter == "*" or letter == "/" or letter == "X" or letter == "x" or letter == "^":
-                    main_stream.append(letter)
-                elif letter == "-":
-                    string = "-"
-                else:
-                    string_char = letter
-            elif string_char == None:
-                main_stream.append(string)
-                string = None
-                if letter == "+" or letter == "~" or letter == "*" or letter == "/" or letter == "X" or letter == "x" or letter == "^":
-                    main_stream.append(letter)
-                elif letter == "-":
-                    string = letter
-                else:
-                    string_char = letter
-            elif string == None:
-                if letter == "+" or letter == "~" or letter == "*" or letter == "/" or letter == "X" or letter == "x" or letter == "^":
-                    print("Syntax Error Code 2. App to Quit")
-                    exit()
-                elif letter == "-":
-                    string = letter
-                else:
-                    string_char = string_char + letter
-            else:
-                main_stream.append(string)
-                string = None
-                if letter == "+" or letter == "~" or letter == "*" or letter == "/" or letter == "X" or letter == "x" or letter == "^":
-                    print("Syntax Error Code 2.App to Quit")
-                elif letter == "-":
-                    main_stream.append(string_char)
-                    string_char = None
-                    string = letter
-                else:
-                    string_char = string_char + letter
-    if string == None and string_char == None:
-        CalculatorSetParser(main_stream)
-    elif string == None:
-        print("\nSyntax Error Code 11. App to Quit")
-        exit()
-    elif string_char == None:
-        main_stream.append(string)
-        CalculatorSetParser(main_stream)
-    else:
-        main_stream.append(string_char)
-        main_stream.append(string)
-        CalculatorSetParser(main_stream)
-
-def main():
-    print("\nVSSVE Calc v1 Python3.6 \nFor Clear Calculations - type CE in syntax, For Help - type help in syntax , To Quit - type quit or exit in Syntax\n(Not Case Sensitive)")
-    main_stream = str(input("\nCalculations :"))
-    if main_stream.lower() == "help":
-        Help()
-        main()
-    elif main_stream.lower() == "quit" or main_stream.lower() == "exit":
-        print("\nThanks for using VSSVE Calc\n")
-        exit()
-    elif main_stream.lower() == "ce":
-        main()
-    parser(main_stream)
-
-
-main()
+main_window.mainloop()
