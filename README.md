@@ -1,8 +1,9 @@
-# VSSVe Calc CLI
+# VSSVe Calc
 
-Version 2.0.0
+Version 3.0.0
 
 A python based pseudo cli BODMAS Scientific calculator with support for some mathematical irrational constants
+A GUI support based on python tkinter using the preexisting cli commands and functions
 
 ### Prerequistes
 
